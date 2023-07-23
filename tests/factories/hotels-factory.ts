@@ -30,7 +30,3 @@ export async function createRoomWithoutVacancies(hotelId: number){
   });
 }
 
-export async function createFakeRoomId(){
-  const roomId = faker.datatype.number({max: 100});
-  return { roomId };
-}
