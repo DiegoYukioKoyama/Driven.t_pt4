@@ -1,7 +1,7 @@
 import { Response } from "express";
 import { AuthenticatedRequest } from "@/middlewares";
 import httpStatus from "http-status";
-import bookingService from "@/services/booking-service";
+import bookingService from "@/services/booking-service";    
 
 export async function getBookingByUserId(req: AuthenticatedRequest, res: Response){
     const { userId } = req;
@@ -26,7 +26,7 @@ export async function createBooking(req: AuthenticatedRequest, res: Response){
         if(e.name === 'NoVacancyError'){
             return res.sendStatus(httpStatus.FORBIDDEN);
         }
-        return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
+        return res.sendStatus(httpStatus.FORBIDDEN);
     }
 }
 
@@ -45,6 +45,6 @@ export async function changeRoom(req: AuthenticatedRequest, res: Response){
         if(e.name === 'NoVacancyError'){
             return res.sendStatus(httpStatus.FORBIDDEN);
         }
-        return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
+        return res.sendStatus(httpStatus.FORBIDDEN);
     }
 }
