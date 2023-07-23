@@ -12,7 +12,6 @@ async function createBooking(userId: number, roomId: number){
         data: {
             userId,
             roomId,
-            updatedAt: new Date(),
         },
     })
 }
@@ -23,7 +22,8 @@ async function updateBooking(roomId: number, bookingId: number){
             id: bookingId
         },
         data: {
-            roomId
+            roomId,
+            updatedAt: new Date()
         },
     })
 }
