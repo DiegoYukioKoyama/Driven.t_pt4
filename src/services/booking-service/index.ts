@@ -27,7 +27,7 @@ async function createBooking(userId: number, roomId: number){
     if(room.capacity === room.Booking.length) throw noVacancyError();
 
     const booking = await bookingRepository.createBooking(userId, roomId);
-    return booking;
+    return { "bookingId": booking.id };
 }
 
 async function changeRoom(userId: number, roomId: number, bookingId: number){
@@ -40,7 +40,7 @@ async function changeRoom(userId: number, roomId: number, bookingId: number){
     if(room.capacity === room.Booking.length) throw noVacancyError();
 
     const updateBooking = await bookingRepository.updateBooking(roomId, bookingId);
-    return updateBooking;
+    return { "bookingId": updateBooking.id };
 }
 
 export default {
