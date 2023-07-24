@@ -9,7 +9,7 @@ export async function getBookingByUserId(req: AuthenticatedRequest, res: Respons
         const booking = await bookingService.getBookingByUserId(userId);
         return res.status(httpStatus.OK).send({ 
             id: booking.id,
-            room: booking.Room
+            Room: booking.Room
         });
     } catch (e) {
         res.sendStatus(httpStatus.NOT_FOUND);

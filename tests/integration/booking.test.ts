@@ -63,7 +63,7 @@ describe('GET /booking', () => {
             expect(result.status).toBe(httpStatus.OK);
             expect(result.body).toEqual({
                 id: booking.id,
-                room: {
+                Room: {
                     id: expect.any(Number),
                     capacity: expect.any(Number),
                     hotelId: expect.any(Number),
@@ -177,9 +177,9 @@ describe('PUT /booking/:bookingId', () => {
             await createTicket(enrollment.id, ticketType.id, TicketStatus.PAID);
             const hotel = await createHotel();
             const room = await createRoomWithHotelId(hotel.id);
-            await createBooking(user.id, room.id);
-            const body = { roomId: 0 };
-            const result = await server.post("/booking").set("Authorization", `Bearer ${token}`).send(body);
+            const booking = await createBooking(user.id, room.id);
+            const body = { roomId: room.id + 1 };
+            const result = await server.put(`/booking/${booking.id}`).set("Authorization", `Bearer ${token}`).send(body);
             expect(result.status).toBe(httpStatus.NOT_FOUND)
         })
         
@@ -190,9 +190,11 @@ describe('PUT /booking/:bookingId', () => {
             const ticketType = await createTicketTypeWithHotel();
             await createTicket(enrollment.id, ticketType.id, TicketStatus.PAID);
             const hotel = await createHotel();
-            const room = await createRoomWithoutVacancies(hotel.id);
-            const body = { roomId: room.id };
-            const result = await server.post("/booking").set("Authorization", `Bearer ${token}`).send(body);
+            const room = await createRoomWithHotelId(hotel.id);
+            const roomWithoutVacancies = await createRoomWithoutVacancies(hotel.id);
+            const booking = await createBooking(user.id, room.id);
+            const body = { roomId: roomWithoutVacancies.id };
+            const result = await server.put(`/booking/${booking.id}`).set("Authorization", `Bearer ${token}`).send(body);
             expect(result.status).toBe(httpStatus.FORBIDDEN);
         });
 
